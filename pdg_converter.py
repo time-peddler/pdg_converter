@@ -24,7 +24,8 @@ def pdg2pdf(pdg_path):
         # 使用RGB模式，减少原有格式占用的空间
         img = img.convert('RGB')
         img.save(new_path, "PDF",quality=75, subsampling=0, resolution=100.0, save_all=True)
-    except:
+    except Exception as err:
+        # print(err)
         pass
 
 def mergePDF(path, book_name='temp.pdf'):
