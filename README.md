@@ -5,24 +5,14 @@
 **食用方式**:
 
 ```shell
-python3 pdg2pdf.py -s "your book filepath" # 转换一个pdf文件
-python3 pdg2pdf.py -r "your books filepath" # 转换多个个pdf文件
+python3 pdg2pdf.py your_book_filepath.zip # 转换单个pdf文件
 ```
 
 **需要的工具**:
+- pip3 install PIL argparse PyPDF2 -i https://pypi.douban.com/simple
 
-- 压缩文件需安装依赖软件Ghostscrip:
-[Ghostscript Installation](https://raw.githubusercontent.com/theeko74/pdfc/master/README.md)
-- pip3 install PIL textwrap argparse PyPDF2 textwrap3 -i https://pypi.douban.com/simple
+**注意事项**：
 
-**转换策略**：
+1. 主要策略是使用pillow将pdg文件转换为pdf，有部分文件可能无法转换为pdf。
 
-1. 通过后缀处理将文件后缀的pdg改为了jpg
-
-2. 通过文件名正则替换进行文件名rename（删除图片名中多余的数字/字母来精简图片名）
-
-3. 通过pip下载PIL的包后进行jpg转pdf处理
-
-4. PyPDF2合并为一个pdf文件
-
-5. 改用theeko74的压缩脚本
+2. **如果文件过大，获得正确密码的线程在解压时，脚本仍然会尝试其他密码，此时只需要等待片刻即可。**
