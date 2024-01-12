@@ -32,6 +32,7 @@ def pdg2pdf(pdg_path):
 
 def mergePDF(extracted_path, book_name='temp.pdf'):
     print('开始合并文件...')
+    print(extracted_path)
     paths = [i for i in os.listdir(extracted_path) if i.endswith('pdf')]
     # 对图书页码进行排序
     pdfs = sorted(sorted(paths),

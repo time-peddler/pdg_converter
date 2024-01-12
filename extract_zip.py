@@ -1,12 +1,6 @@
 import os
 import zipfile
 import rarfile
-import concurrent.futures
-
-
-def read_passwords(password_file):
-    with open(password_file, encoding='utf-8') as f:
-        return list(set(map(str.strip, f)))
 
 
 class CompressionHandler:
@@ -42,7 +36,7 @@ class CompressionHandler:
             elif self.file_type == "rar":
                 with rarfile.RarFile(self.file_path, 'r') as rar_file:
                     rar_file.extractall(path=self.unzip2path, pwd=password.encode('utf-8'))
-            print("Real password is: %s" % password)
+            return True
         except Exception as e:
             if password:
                 print(f"Test password: {password}, failed!")
@@ -51,19 +45,25 @@ class CompressionHandler:
 
     def decrypt_and_extract(self, password_file="passwords.txt"):
         print('Encrypted! Trying to decrypt it with Passbook.')
-        pwd_lists = read_passwords(password_file)
 
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = [executor.submit(self.extract_file, pwd) for pwd in pwd_lists]
+        try:
+            with open(password_file, encoding='utf-8') as f:
+                pwd_list = list(map(str.strip, f))
+        except FileNotFoundError:
+            print(f"Error: Password file '{password_file}' not found.")
+            return
 
-            for future in concurrent.futures.as_completed(futures):
-                try:
-                    future.result()
-                except Exception as e:
-                    print(f"Thread error: {e}")
+        while pwd_list:
+            pwd = pwd_list.pop()
+            if self.extract_file(pwd):
+                print(f"Password '{pwd}' successfully decrypted.")
+                return
+
+        print('There is no correct password in the password book')
+        exit(0)
 
     def extract(self):
-        if not self.is_encrypted:
-            self.extract_file()
-        else:
+        if self.is_encrypted:
             self.decrypt_and_extract()
+        else:
+            self.extract_file()
