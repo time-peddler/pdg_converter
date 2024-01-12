@@ -47,7 +47,7 @@ class CompressionHandler:
             if password:
                 print(f"Test password: {password}, failed!")
             else:
-                print(f"An error occurred for {self.file_path}: {e}")
+                print(f"An error occurred while extracting {self.file_path}: {e}")
 
     def decrypt_and_extract(self, password_file="passwords.txt"):
         print('Encrypted! Trying to decrypt it with Passbook.')

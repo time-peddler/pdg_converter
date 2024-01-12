@@ -42,7 +42,7 @@ def mergePDF(extracted_path, book_name='temp.pdf'):
             file = os.path.join(extracted_path, pdf)
             merger.append(open(file, 'rb'))
         except Exception as e:
-            print(f"An error occurred for merge {pdf}: {e}")
+            print(f"An error occurred while merging {pdf}: {e}")
     merger.write(os.path.join(extracted_path, book_name))
     merger.close()
     print('合并完成！')
